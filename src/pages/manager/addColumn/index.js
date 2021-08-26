@@ -1,5 +1,5 @@
 import './index.css'
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import axios from 'axios';
 
 
@@ -20,29 +20,6 @@ function AddColumn(props) {
             span: 16,
         },
     };
-    //添加成功弹框配置
-    const suc = {
-        top: 20,
-        description:
-            '添加成功',
-        duration: 1,
-        style: { marginRight: '750px' }
-    };
-    //提交失败弹框配置
-    const fail = {
-        top: 20,
-        description:
-            '请勿重复添加',
-        duration: 1,
-        style: { marginRight: '750px' }
-    }
-    const reLogin = {
-        top: 20,
-        description:
-            '登录过期，请重新登录',
-        duration: 1,
-        style: { marginRight: '750px' }
-    }
 
     const [form] = Form.useForm();
     const onReset = () => {
@@ -59,17 +36,17 @@ function AddColumn(props) {
             // baseURL: 'http://127.0.0.1:8086',
         }).then(res => {
             if (res.data.code === 2) {
-                notification.success(suc); 
+                message.success('添加成功');
                 onReset();
-            }else if(res.data.code === 4){
-                notification.success(reLogin);
+            } else if (res.data.code === 4) {
+                message.warning('登录已过期，请重新登录');
                 props.history.push('/login');
             }
         }).catch(err => {
-            notification.error(fail);
+            message.error('请勿重复添加');
             console.log(err);
         });
-        
+
     };
 
     return (

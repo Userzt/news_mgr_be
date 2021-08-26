@@ -51,7 +51,7 @@ function Manager(props) {
                         <h2>新闻管理系统</h2>
                     </div>
                     <div className="username">
-                        <p>{/* {props.userInfo.user.authority} */} , 您好</p>
+                        <p>{props.userInfo.user.authority} , 您好</p>
                     </div>
                     <div className="exit">
                         <button onClick={exit}>安全退出</button>

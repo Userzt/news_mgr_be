@@ -1,5 +1,5 @@
 import './index.css'
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import axios from 'axios';
 
 
@@ -20,22 +20,6 @@ function UpdateColumn(props) {
             span: 16,
         },
     };
-    //添加成功弹框配置
-    const suc = {
-        top: 20,
-        description:
-            '修改成功',
-        duration: 1,
-        style: { marginRight: '750px' }
-    };
-    //提交失败弹框配置
-    const fail = {
-        top: 20,
-        description:
-            '修改失败',
-        duration: 1,
-        style: { marginRight: '750px' }
-    }
 
     const onFinish = (values) => {
         axios({
@@ -48,15 +32,15 @@ function UpdateColumn(props) {
         }).then(res => {
             console.log(res);
             if (res.data.code === 2) {
-                notification.success(suc);
+                message.success('修改成功');
                 props.history.push('/manager/colmgr');
-            }else{
-                notification.error(fail);
+            } else {
+                message.error('修改失败');
             }
         }).catch(err => {
             console.log(err);
         });
-        
+
     };
 
     return (

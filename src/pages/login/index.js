@@ -1,4 +1,4 @@
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './index.css'
 import axios from 'axios';
@@ -8,23 +8,7 @@ import { connect } from 'react-redux';
 
 
 function Login(props) {
-    //登录成功弹框配置
-    const suc = {
-        top: 20,
-        description:
-            '登录成功',
-        duration: 1,
-        style: { marginRight: '750px' }
-    };
-    //登录失败弹框配置
-    const fail = {
-        top: 20,
-        description:
-            '账号或密码错误',
-        duration: 1,
-        style: { marginRight: '750px' }
-    }
-
+    
     const onFinish = (values) => {
         axios({
             url: '/sys/login',
@@ -36,12 +20,12 @@ function Login(props) {
         }).then(res => {
             if (res.data.code === 2) {
                 sessionStorage.setItem('token', res.data.data.token);
-                notification.success(suc);
+                message.success('登录成功');
                 //设置redux中的用户信息
                 props.setUser(res.data.data);
                 props.history.push('/manager');
             } else if (res.data.code === 4) {
-                notification.error(fail);
+                message.error('账户或密码错误');
             }
         }).catch(err => {
             console.log(err);

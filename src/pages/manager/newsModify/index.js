@@ -1,6 +1,6 @@
 import './index.css'
 import React, { useEffect } from 'react';
-import { Form, Input, Button, notification, Upload, Select, } from 'antd';
+import { Form, Input, Button, Upload, Select, message, } from 'antd';
 import axios from 'axios';
 import { UploadOutlined } from '@ant-design/icons';
 import E from 'wangeditor';
@@ -26,14 +26,6 @@ function NewsModify(props) {
         },
     };
 
-    const suc = {
-        top: 20,
-        description:
-            '修改成功',
-        duration: 1,
-        style: { marginRight: '750px' }
-    };
-
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
@@ -52,13 +44,12 @@ function NewsModify(props) {
             //  baseURL: 'http://127.0.0.1:8086',
         }).then(res => {
             if (res.data.code === 2) {
-                notification.success(suc);
+                message.success('修改成功');
                 onReset();
             } else if (res.data.code === 4) {
                 props.history.push('/login');
             }
         }).catch(err => {
-            //  notification.error(fail);
             console.log(err);
         });
 
@@ -92,7 +83,7 @@ function NewsModify(props) {
     const { Option } = Select;
 
     //栏目信息
-    const colInfo = JSON.parse(sessionStorage.getItem('colInfo'));
+    const colInfo = JSON.parse(localStorage.getItem('colInfo'));
 
     //手动上传
     const onBeforeUpload = () => {

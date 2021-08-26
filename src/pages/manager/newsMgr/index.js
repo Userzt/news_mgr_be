@@ -1,5 +1,5 @@
 import './index.css'
-import { Table, Space, Button, notification } from 'antd';
+import { Table, Space, Button, message } from 'antd';
 import { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -14,7 +14,7 @@ class NewsMgr extends Component {
             newList: []
         }
     }
-     columns = [
+    columns = [
         {
             title: '新闻编号',
             dataIndex: 'columnId',
@@ -45,8 +45,8 @@ class NewsMgr extends Component {
             ),
         },
     ];
-    
-     delNews = (record) => {
+
+    delNews = (record) => {
         axios({
             url: '/news/delete',
             method: 'get',
@@ -57,7 +57,7 @@ class NewsMgr extends Component {
             baseURL: 'http://192.168.0.254:8086',
         }).then(res => {
             if (res.data.code === 2) {
-                notification.success(this.delSuc);
+                message.success('删除成功');
                 this.getDate();
             } else {
                 alert('修改失败')
@@ -66,25 +66,10 @@ class NewsMgr extends Component {
             console.log(err);
         });
     }
-    
-    //配置notification
-    delSuc = {
-        top: 20,
-        description:
-            '删除成功',
-        duration: 1,
-        style: { marginRight: '750px' }
-    }
-     reLogin = {
-        top: 20,
-        description:
-            '登录过期，请重新登录',
-        duration: 1,
-        style: { marginRight: '750px' }
-    }
+
 
     //获取新闻列表数据
-    getDate(){
+    getDate() {
         axios({
             url: '/news/list',
             method: 'get',
@@ -97,14 +82,14 @@ class NewsMgr extends Component {
                     newList: res.data.data.list
                 })
             } else if (res.data.code === 4) {
-                notification.success(this.reLogin);
+                message.warning('登录过期，请重新登录');
                 this.props.history.push('/login');
             }
         }).catch(err => {
             console.log(err);
         });
     }
-    
+
     componentDidMount() {
         this.getDate();
     }
