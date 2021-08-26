@@ -1,4 +1,4 @@
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, notification } from 'antd';
 import { UserOutlined, LaptopOutlined, HomeOutlined } from '@ant-design/icons';
 import './manager.css'
 import { Link, Redirect, Route, Switch } from 'react-router-dom';
@@ -11,13 +11,32 @@ import UpdateColumn from '../updateCol';
 import AddNews from './addNews';
 import NewsMgr from './newsMgr';
 import NewsQuery from './newsQuery';
+import NewsModify from './newsModify';
+import axios from 'axios';
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 function Manager(props) {
 
+    //登录成功弹框配置
+    const suc = {
+        top: 20,
+        description:
+            '退出成功',
+        duration: 1,
+        style: { marginRight: '750px' }
+    };
+
     function exit() {
+        axios({
+            url: '/sys/logout',
+            method: 'get',
+            headers: { 'X-Token': sessionStorage.getItem('token') },
+            baseURL: 'http://192.168.0.254:8086',
+        }).then(() => {
+            notification.success(suc);
+        })
         localStorage.removeItem('token');
         props.history.push('/login');
     }
@@ -76,6 +95,7 @@ function Manager(props) {
                                 <Route path='/manager/addnews' component={AddNews}></Route>
                                 <Route path='/manager/newsmgr' component={NewsMgr}></Route>
                                 <Route path='/manager/newsquery' component={NewsQuery}></Route>
+                                <Route path='/manager/newsmodify' component={NewsModify}></Route>
                                 <Redirect from='/manager' to='/manager/home' />
                             </Switch>
                         </Content>

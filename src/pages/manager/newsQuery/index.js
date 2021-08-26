@@ -1,12 +1,31 @@
 import NewsMgr from '../newsMgr'
 import './index.css'
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
+import axios from 'axios';
 
 function NewsQuery() {
+    const [list, setState] = useState([])
+
     const [form] = Form.useForm();
     const onFinish = (values) => {
-        console.log(values);
+        axios({
+            url: '/news/query',
+            method: 'get',
+            params: {
+                newsId: values.newsId,
+                title: values.title,
+                startDate: values.startDate,
+                endDate: values.endDate,
+            },
+            headers: { 'X-Token': sessionStorage.getItem('token') },
+            baseURL: 'http://192.168.0.254:8086',
+        }).then(res => {
+            setState({
+                list:res.data.data.list
+            });
+            console.log('list',list);
+        })
     }
 
     return (
@@ -34,11 +53,11 @@ function NewsQuery() {
                             <Input placeholder="截至日期" />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" style={{borderRadius:'7px'}}>查询</Button>
+                            <Button type="primary" htmlType="submit" style={{ borderRadius: '7px' }}>查询</Button>
                         </Form.Item>
                     </Form>
                 </div>
-                <NewsMgr />
+                <NewsMgr name={list} />
 
             </div>
         </div>

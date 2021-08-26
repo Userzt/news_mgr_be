@@ -31,8 +31,8 @@ function Login(props) {
             method: 'post',
             data: `username=${values.username}&password=${values.password}`,
             headers: { 'content-type': 'application/x-www-form-urlencoded' },
-            // baseURL: 'http://192.168.0.254:8086',
-            baseURL: 'http://127.0.0.1:8086'
+            baseURL: 'http://192.168.0.254:8086',
+            // baseURL: 'http://127.0.0.1:8086'
         }).then(res => {
             if (res.data.code === 2) {
                 sessionStorage.setItem('token', res.data.data.token);

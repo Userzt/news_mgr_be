@@ -6,9 +6,10 @@ import { UploadOutlined } from '@ant-design/icons';
 import E from 'wangeditor';
 
 
-let editor = null;
+let editor = null
 
-function AddNews(props) {
+
+function NewsModify(props) {
 
     const layout = {
         labelCol: {
@@ -28,7 +29,7 @@ function AddNews(props) {
     const suc = {
         top: 20,
         description:
-            '添加成功',
+            '修改成功',
         duration: 1,
         style: { marginRight: '750px' }
     };
@@ -36,28 +37,24 @@ function AddNews(props) {
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
-        console.log(values.file);
         let formData = new FormData();
         formData.set('title', values.title);
         formData.set('content', getText());
         formData.set('columnId', values.sort);
         formData.set('file', values.file.file);
-        formData.set('remark', values.remark);
-
+        formData.set('newsId', sessionStorage.getItem('newsId'));
         axios({
-            url: '/news/add',
+            url: '/news/update ',
             method: 'post',
             data: formData,
             headers: { 'content-type': 'application/x-www-form-urlencoded', 'X-Token': sessionStorage.getItem('token') },
             baseURL: 'http://192.168.0.254:8086',
             //  baseURL: 'http://127.0.0.1:8086',
         }).then(res => {
-            console.log(res.data);
             if (res.data.code === 2) {
                 notification.success(suc);
                 onReset();
             } else if (res.data.code === 4) {
-                alert('登录已过期，请重新登录');
                 props.history.push('/login');
             }
         }).catch(err => {
@@ -94,9 +91,6 @@ function AddNews(props) {
     //分类下拉列表
     const { Option } = Select;
 
-    // function handleChange(value) {
-    //     console.log(value); 
-    // }
     //栏目信息
     const colInfo = JSON.parse(sessionStorage.getItem('colInfo'));
 
@@ -107,8 +101,8 @@ function AddNews(props) {
     }
 
     return (
-        <div className='add_news'>
-            <h3>新闻添加</h3>
+        <div className="news_modify">
+            <h3>新闻修改</h3>
             <Form {...layout} className='add_form' form={form} name="control-hooks" onFinish={onFinish}>
                 <Form.Item
                     name="title"
@@ -152,20 +146,9 @@ function AddNews(props) {
                     </div>
                 </Form.Item>
 
-                <Form.Item
-                    name="remark"
-                    label="新闻描述"
-                    rules={[
-                        {
-                            required: false,
-                        },
-                    ]}
-                >
-                    <Input style={{ borderRadius: '8px' }} />
-                </Form.Item>
                 <Form.Item {...tailLayout}>
                     <Button type="primary" htmlType="submit" className='subBtn'>
-                        提交
+                        修改
                     </Button>
                     <Button htmlType="button" onClick={onReset}>
                         重置
@@ -176,5 +159,4 @@ function AddNews(props) {
     );
 }
 
-
-export default AddNews;
+export default NewsModify;

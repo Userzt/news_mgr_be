@@ -6,7 +6,6 @@ import axios from 'axios';
 
 
 function AddColumn(props) {
-    console.log(props);
     const layout = {
         labelCol: {
             span: 4,
@@ -45,17 +44,23 @@ function AddColumn(props) {
         style: { marginRight: '750px' }
     }
 
+    const [form] = Form.useForm();
+    const onReset = () => {
+        form.resetFields();
+    };
+
     const onFinish = (values) => {
         axios({
             url: '/news/column/add',
             method: 'post',
             data: `columnName=${values.columnName}`,
             headers: { 'content-type': 'application/x-www-form-urlencoded', 'X-Token': sessionStorage.getItem('token') },
-            // baseURL: 'http://192.168.0.254:8086',
-            baseURL: 'http://127.0.0.1:8086',
+            baseURL: 'http://192.168.0.254:8086',
+            // baseURL: 'http://127.0.0.1:8086',
         }).then(res => {
             if (res.data.code === 2) {
                 notification.success(suc); 
+                onReset();
             }else if(res.data.code === 4){
                 notification.success(reLogin);
                 props.history.push('/login');
@@ -70,7 +75,7 @@ function AddColumn(props) {
     return (
         <div className="add">
             <h3>添加栏目</h3>
-            <Form {...layout} className='add_form' name="control-hooks" onFinish={onFinish}>
+            <Form {...layout} className='add_form' form={form} name="control-hooks" onFinish={onFinish}>
                 <Form.Item
                     name="columnName"
                     label="栏目名称"

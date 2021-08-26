@@ -6,7 +6,6 @@ import axios from 'axios';
 
 
 function UpdateColumn(props) {
-    console.log(props);
     const layout = {
         labelCol: {
             span: 4,
@@ -44,8 +43,8 @@ function UpdateColumn(props) {
             method: 'post',
             data: `columnId=${values.columnId}&columnName=${values.columnName}`,
             headers: { 'content-type': 'application/x-www-form-urlencoded', 'X-Token': sessionStorage.getItem('token') },
-            // baseURL: 'http://192.168.0.254:8086',
-            baseURL: 'http://127.0.0.1:8086',
+            baseURL: 'http://192.168.0.254:8086',
+            // baseURL: 'http://127.0.0.1:8086',
         }).then(res => {
             console.log(res);
             if (res.data.code === 2) {

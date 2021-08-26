@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from 'qs';
 
 
 const baseUrl = 'http://192.168.0.254:8086';
@@ -19,7 +20,11 @@ export function get(url, param) {
 
 export function post(url, params) {
     return new Promise((resolve, reject) => {
-        axios.post(baseUrl + url, params).then(response => {
+        axios.post(baseUrl + url, qs.stringify(params), {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
             resolve(response.data);
         }, err => {
             reject(err);
