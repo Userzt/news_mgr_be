@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from 'qs';
 
 
-const baseUrl = 'http://192.168.0.254:8086';
+const baseUrl = 'http://127.0.0.1:8086';
 
 
 // get post请求封装

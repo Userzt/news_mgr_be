@@ -40,7 +40,7 @@ function NewsModify(props) {
             method: 'post',
             data: formData,
             headers: { 'content-type': 'application/x-www-form-urlencoded', 'X-Token': sessionStorage.getItem('token') },
-            baseURL: 'http://192.168.0.254:8086',
+            baseURL: 'http://127.0.0.1:8086',
             //  baseURL: 'http://127.0.0.1:8086',
         }).then(res => {
             if (res.data.code === 2) {
@@ -76,7 +76,7 @@ function NewsModify(props) {
 
     // 获取编辑器的text
     function getText() {
-        return editor.txt.text();
+        return editor.txt.html();
     }
 
     //分类下拉列表
@@ -117,7 +117,7 @@ function NewsModify(props) {
                     ]}
                 >
                     <Select defaultValue='请选择' style={{ width: 330 }}>
-                        {colInfo.map(item => (
+                        {colInfo&&colInfo.map(item => (
                             <Option key={item.columnId}>{item.columnName}</Option>
                         ))}
                     </Select>

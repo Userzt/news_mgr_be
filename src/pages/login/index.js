@@ -15,14 +15,16 @@ function Login(props) {
             method: 'post',
             data: `username=${values.username}&password=${values.password}`,
             headers: { 'content-type': 'application/x-www-form-urlencoded' },
-            baseURL: 'http://192.168.0.254:8086',
-            // baseURL: 'http://127.0.0.1:8086'
+            // baseURL: 'http://127.0.0.1:8086',
+            baseURL: 'http://127.0.0.1:8086'
         }).then(res => {
             if (res.data.code === 2) {
                 sessionStorage.setItem('token', res.data.data.token);
                 message.success('登录成功');
                 //设置redux中的用户信息
+                
                 props.setUser(res.data.data);
+                sessionStorage.setItem('userInfo',JSON.stringify(res.data.data))
                 props.history.push('/manager');
             } else if (res.data.code === 4) {
                 message.error('账户或密码错误');

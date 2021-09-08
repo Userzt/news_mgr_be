@@ -32,18 +32,16 @@ function AddColumn(props) {
             method: 'post',
             data: `columnName=${values.columnName}`,
             headers: { 'content-type': 'application/x-www-form-urlencoded', 'X-Token': sessionStorage.getItem('token') },
-            baseURL: 'http://192.168.0.254:8086',
+            baseURL: 'http://127.0.0.1:8086',
             // baseURL: 'http://127.0.0.1:8086',
         }).then(res => {
             if (res.data.code === 2) {
                 message.success('添加成功');
                 onReset();
-            } else if (res.data.code === 4) {
-                message.warning('登录已过期，请重新登录');
-                props.history.push('/login');
+            } else if (res.data.code === 3) {
+                message.warning(res.data.message);
             }
         }).catch(err => {
-            message.error('请勿重复添加');
             console.log(err);
         });
 

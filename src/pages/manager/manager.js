@@ -33,7 +33,7 @@ function Manager(props) {
             url: '/sys/logout',
             method: 'get',
             headers: { 'X-Token': sessionStorage.getItem('token') },
-            baseURL: 'http://192.168.0.254:8086',
+            baseURL: 'http://127.0.0.1:8086',
         }).then(() => {
             notification.success(suc);
         })
@@ -51,7 +51,7 @@ function Manager(props) {
                         <h2>新闻管理系统</h2>
                     </div>
                     <div className="username">
-                        <p>{props.userInfo.user.authority} , 您好</p>
+                        {props.userInfo.user.authority && <p>{ props.userInfo.user.authority } , 您好</p>}
                     </div>
                     <div className="exit">
                         <button onClick={exit}>安全退出</button>
