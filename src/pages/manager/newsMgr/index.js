@@ -15,7 +15,7 @@ class NewsMgr extends Component {
   columns = [
     {
       title: "新闻编号",
-      dataIndex: "columnId",
+      dataIndex: "newsId",
       key: "newsId",
       align: "center",
     },
